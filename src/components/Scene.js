@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import {View, Text, PanResponder, Dimensions} from "react-native";
+import Expo from "expo";
+
 import * as THREE from "three";
+const THREEView = Expo.createTHREEViewClass(THREE);
 
 import GestureType from "../controllers/GestureType";
 
@@ -13,6 +16,13 @@ let sky, sunSphere;
 class Scene extends Component {
   world;
   state = {};
+
+  setupScene = (fogColor = 0x7394a0, fogFalloff = 0.00015) => {
+    this.scene = new THREE.Scene();
+    this.scene.fog = new THREE.FogExp2(fogColor, fogFalloff);
+  };
+
+  setupLights = () => {};
 
   async componentWillMount() {
     this.world = new World(worldSize, worldSize);
@@ -35,7 +45,17 @@ class Scene extends Component {
     this.setupSky();
   };
 
+  tick = () => {
+    this.controls.update(dt, this.moveID);
+  };
+
   render() {
+    if (!this.state.ready) {
+      return <Expo.Apploading />;
+    }
+
+    const dPad = {};
+
     return (
       <View style={{flex: 1}}>
         <THREEView
@@ -45,7 +65,7 @@ class Scene extends Component {
           camera={this.camera}
           tick={this.tick}
         />
-        {dpad}
+        {dPad}
       </View>
     );
   }

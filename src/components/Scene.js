@@ -6,6 +6,7 @@ import * as THREE from "three";
 const THREEView = Expo.createTHREEViewClass(THREE);
 
 import GestureType from "../controllers/GestureType";
+import World from "../controllers/World";
 
 const {width, height} = Dimensions.get("window");
 

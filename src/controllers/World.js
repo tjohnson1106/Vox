@@ -206,9 +206,17 @@ class World extends Component {
     return this.buildMesh(geometry, texture);
   };
 
-  buildMesh = () => {};
+  buildMesh = (geometry, image) => {
+    this.mesh = new THREE.Mesh(geometry, this.buildTexture(image));
+    return this.mesh;
+  };
 
-  buildText = image => {};
+  buildText = image => {
+    return new THREE.MeshLambertMaterial({
+      map: image,
+      vertexColors: THREE.VertexColors
+    });
+  };
 
   async buildTerrain() {
     const textureAsset = Expo.Asset.fromModule(
